@@ -35,7 +35,7 @@ Install dependencies
 Start the server
 
 ```bash
-  pnpm run start
+  pnpm run dev
 ```
 
 Set the ENV , you can get the api key from https://gorest.co.in/my-account/access-tokens
