@@ -13,6 +13,7 @@ export default function Pagination({ page }: Props) {
         <Link
           href={`?page=${Number(page) - 1}`}
           className="flex gap-3 items-center"
+          scroll={false}
         >
           <ChevronLeft size={20} />
           Previous
@@ -30,6 +31,7 @@ export default function Pagination({ page }: Props) {
         <Link
           href={`?page=${Number(page) + 1}`}
           className="flex gap-3 items-center"
+          scroll={false}
         >
           Next
           <ChevronRight size={20} />
