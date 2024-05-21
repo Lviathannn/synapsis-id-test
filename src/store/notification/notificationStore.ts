@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
 interface NotificationState {
-  errorMessages: string;
-  successMessages: string;
+  createUserMessage: string;
+  deleteUserMessage: string;
 }
 
-const useBearStore = create<NotificationState>()((set) => ({
-  errorMessages: 'Error while create user',
-  successMessages: 'User created successfully',
+export const useNotificationStore = create<NotificationState>()((set) => ({
+  createUserMessage: 'User created successfully!',
+  deleteUserMessage: 'User deleted successfully!',
 }));

@@ -1,5 +1,6 @@
 'use client';
-import { Button, Form, Input, InputNumber, notification } from 'antd';
+import { useNotificationStore } from '@/store/notification/notificationStore';
+import { Button, Form, Input, InputNumber, message } from 'antd';
 import type { FormProps } from 'antd';
 
 type FieldType = {
@@ -21,6 +22,11 @@ interface Props {
 }
 
 export default function CreateUserForm({ data, setData }: Props) {
+  const successMessage = useNotificationStore(
+    (state) => state.createUserMessage,
+  );
+  const [messageApi, contextHolder] = message.useMessage();
+
   const [form] = Form.useForm();
 
   const onFinish = (fieldsValue: FieldType) => {
@@ -30,20 +36,24 @@ export default function CreateUserForm({ data, setData }: Props) {
     };
 
     setData([...data, user]);
-    notification.success({
-      message: 'User created successfully',
+    messageApi.open({
+      type: 'success',
+      content: successMessage,
     });
+
     form.resetFields();
   };
 
   const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = () => {
-    notification.error({
-      message: 'Failed to create user',
+    messageApi.open({
+      type: 'error',
+      content: "Couldn't create user",
     });
   };
 
   return (
     <div className="container flex flex-col gap-10 justify-center h-screen items-center">
+      {contextHolder}
       <h1 className="text-3xl font-medium">Create User</h1>
 
       <Form
