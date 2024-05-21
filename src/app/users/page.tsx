@@ -11,6 +11,7 @@ import {
 type Props = {
   searchParams?: {
     page: string;
+    limit: string;
   };
 };
 
@@ -19,14 +20,18 @@ export default async function page({ searchParams }: Props) {
 
   await queryClient.prefetchQuery({
     queryKey: ["users", searchParams?.page || "1"],
-    queryFn: () => getUsers(searchParams?.page || "1"),
+    queryFn: () =>
+      getUsers(searchParams?.page || "1", searchParams?.limit || "10"),
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <main className="container py-20 space-y-5">
-        <CreateUserSection />
-        <TableSection page={searchParams?.page || "1"} />
+        <CreateUserSection page={searchParams?.page || "10"} />
+        <TableSection
+          page={searchParams?.page || "1"}
+          limit={searchParams?.limit || "10"}
+        />
         <Pagination page={searchParams?.page || "1"} />
       </main>
     </HydrationBoundary>

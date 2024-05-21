@@ -12,12 +12,13 @@ import { getUsers } from "@/services/getUsers";
 import { useQuery } from "@tanstack/react-query";
 type Props = {
   page: string;
+  limit: string;
 };
 
-export default function TableSection({ page }: Props) {
+export default function TableSection({ page, limit }: Props) {
   const { data: users } = useQuery({
     queryKey: ["users", page],
-    queryFn: () => getUsers(page),
+    queryFn: () => getUsers(page, limit),
   });
 
   return (
