@@ -1,6 +1,7 @@
 'use client';
 import CreateUserForm from '@/components/features/CreateUserForm';
-import { Table, TableProps, Space } from 'antd';
+import { useNotificationStore } from '@/store/notification/notificationStore';
+import { Table, TableProps, Space, Modal, Button, message } from 'antd';
 import { useState } from 'react';
 
 interface DataType {
@@ -9,48 +10,6 @@ interface DataType {
   age: number;
   address: string;
 }
-
-const columns: TableProps<DataType>['columns'] = [
-  {
-    title: 'Key',
-    dataIndex: 'key',
-    key: 'key',
-    showSorterTooltip: { target: 'full-header' },
-    render: (text) => <p>{text}</p>,
-    sorter: (a, b) => a.key - b.key,
-    sortDirections: ['descend'],
-  },
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    sorter: (a, b) => a.name.localeCompare(b.name),
-    sortDirections: ['ascend'],
-    render: (text) => <p>{text}</p>,
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-    showSorterTooltip: { target: 'full-header' },
-    sorter: (a, b) => a.age - b.age,
-    sortDirections: ['ascend'],
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Delete</a>
-      </Space>
-    ),
-  },
-];
 
 const data: DataType[] = [
   {
@@ -177,10 +136,96 @@ const data: DataType[] = [
 
 export default function Page() {
   const [dummy, setDummy] = useState<DataType[]>(data);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<DataType | null>(null);
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const successMessage = useNotificationStore(
+    (state) => state.deleteUserMessage,
+  );
+
+  const showModal = (user: DataType) => {
+    setIsModalOpen(true);
+    setSelectedUser(user);
+  };
+
+  const handleOk = () => {
+    if (selectedUser) {
+      setDummy(dummy.filter((user) => user.key !== selectedUser.key));
+    }
+    setIsModalOpen(false);
+    messageApi.open({
+      type: 'success',
+      content: successMessage,
+    });
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const columns: TableProps<DataType>['columns'] = [
+    {
+      title: 'Key',
+      dataIndex: 'key',
+      key: 'key',
+      showSorterTooltip: { target: 'full-header' },
+      render: (text) => <p>{text}</p>,
+      sorter: (a, b) => a.key - b.key,
+      sortDirections: ['descend'],
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      sorter: (a, b) => a.name.localeCompare(b.name),
+      sortDirections: ['ascend'],
+      render: (text) => <p>{text}</p>,
+    },
+    {
+      title: 'Age',
+      dataIndex: 'age',
+      key: 'age',
+      showSorterTooltip: { target: 'full-header' },
+      sorter: (a, b) => a.age - b.age,
+      sortDirections: ['ascend'],
+    },
+    {
+      title: 'Address',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Space size="middle">
+          <Button
+            danger
+            type="primary"
+            onClick={() => {
+              showModal(record);
+            }}
+          >
+            Delete
+          </Button>
+        </Space>
+      ),
+    },
+  ];
+
   return (
     <main className="container py-10 flex justify-between minh-h-screen items-center">
+      {contextHolder}
       <CreateUserForm data={dummy} setData={setDummy} />
       <Table dataSource={dummy} className="w-full" columns={columns} />;
+      <Modal
+        title="Basic Modal"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <p>Are you sure you want to delete </p>
+      </Modal>
     </main>
   );
 }
