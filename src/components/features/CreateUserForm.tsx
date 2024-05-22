@@ -16,12 +16,7 @@ interface DataType {
   address: string;
 }
 
-interface Props {
-  data: DataType[];
-  setData: React.Dispatch<React.SetStateAction<DataType[]>>;
-}
-
-export default function CreateUserForm({ data, setData }: Props) {
+export default function CreateUserForm() {
   const successMessage = useNotificationStore(
     (state) => state.createUserMessage,
   );
@@ -30,17 +25,6 @@ export default function CreateUserForm({ data, setData }: Props) {
   const [form] = Form.useForm();
 
   const onFinish = (fieldsValue: FieldType) => {
-    const user = {
-      key: data.length + 1,
-      ...fieldsValue,
-    };
-
-    setData([...data, user]);
-    messageApi.open({
-      type: 'success',
-      content: successMessage,
-    });
-
     form.resetFields();
   };
 
