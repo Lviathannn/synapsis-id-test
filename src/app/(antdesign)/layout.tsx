@@ -1,3 +1,4 @@
+import QueryProvider from '@/components/provider/QueryProvider';
 import { ConfigProvider } from 'antd';
 
 type Props = {
@@ -14,7 +15,7 @@ export default function layout({ children }: Props) {
         },
       }}
     >
-      {children}
+      <QueryProvider>{children}</QueryProvider>
     </ConfigProvider>
   );
 }

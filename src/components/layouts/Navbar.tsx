@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { AlignRight } from "lucide-react";
-import Image from "next/image";
-import LogoImg from "@/assets/img/Logo.png";
-import { NAVIGATION_ROUTE } from "@/constant";
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { AlignRight } from 'lucide-react';
+import Image from 'next/image';
+import LogoImg from '@/assets/img/Logo.png';
+import { NAVIGATION_ROUTE } from '@/constant';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -54,7 +54,7 @@ export function Navbar() {
                   >
                     <div
                       className={`rounded-full p-2 ${
-                        pathname == item.path && "bg-primary text-white"
+                        pathname == item.path && 'bg-primary text-white'
                       }`}
                     >
                       <item.icon />
@@ -66,12 +66,12 @@ export function Navbar() {
             </SheetContent>
           </Sheet>
         </div>
-        <div className="space-x-4 hidden sm:block">
+        <div className="gap-4 hidden sm:flex flex-nowrap">
           {NAVIGATION_ROUTE.map((item) => (
             <Link
               href={item.path}
               className={`text-foreground font-medium ${
-                pathname == item.path && "text-primary"
+                pathname == item.path && 'text-primary'
               }`}
               key={item.path}
             >
