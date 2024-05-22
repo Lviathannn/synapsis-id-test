@@ -7,15 +7,17 @@ type Props = {
 
 export default function layout({ children }: Props) {
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: '#2563eb',
-          borderRadius: 5,
-        },
-      }}
-    >
-      <QueryProvider>{children}</QueryProvider>
-    </ConfigProvider>
+    <>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: '#2563eb',
+            borderRadius: 5,
+          },
+        }}
+      >
+        <QueryProvider>{children}</QueryProvider>
+      </ConfigProvider>
+    </>
   );
 }
