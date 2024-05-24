@@ -1,3 +1,4 @@
+import QueryProvider from '@/components/provider/QueryProvider';
 import { ConfigProvider } from 'antd';
 
 type Props = {
@@ -6,15 +7,17 @@ type Props = {
 
 export default function layout({ children }: Props) {
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: '#2563eb',
-          borderRadius: 5,
-        },
-      }}
-    >
-      {children}
-    </ConfigProvider>
+    <>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: '#2563eb',
+            borderRadius: 5,
+          },
+        }}
+      >
+        <QueryProvider>{children}</QueryProvider>
+      </ConfigProvider>
+    </>
   );
 }
