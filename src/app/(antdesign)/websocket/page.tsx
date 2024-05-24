@@ -1,49 +1,31 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { Tag } from 'antd';
+import React from 'react';
+import { notification } from 'antd';
+import { NotificationInstance } from 'antd/es/notification/interface';
+import { useNotification } from '@/hooks/useNotification';
 
 const Page = () => {
-  const userNikRef = useRef<HTMLSpanElement>(null);
-  const subjectRef = useRef<HTMLSpanElement>(null);
-  const messageRef = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    // @ts-ignore
-    const centrifuge = new Centrifuge(
-      'wss://wss.apps-madhani.com/connection/websocket',
-      {
-        token: 'AaBbCcJKLMNOPqrstu21VWXYZ',
-      },
-    );
-
-    // @ts-ignore
-    centrifuge.on('connect', function (context) {
-      console.log('connect', context);
-    });
-
-    // @ts-ignore
-    centrifuge.on('disconnect', function (context) {
-      console.log('disconnect', context);
-    });
-
-    // @ts-ignore
-    const nik = '123456';
-    centrifuge.subscribe(
-      `ws/test-app/notification/users/${nik}`,
-      // @ts-ignore
-      function (ctx) {
-        console.log('message', ctx);
-      },
-    );
-
-    centrifuge.connect();
-  }, []);
+  const [api, contextHolder] = notification.useNotification();
+  const message = useNotification(api as NotificationInstance);
 
   return (
-    <div>
-      <span ref={userNikRef}></span>
-      <span ref={subjectRef}></span>
-      <span ref={messageRef}></span>
-    </div>
+    <main className="h-screen container flex justify-center items-center">
+      {contextHolder}
+      <div>
+        {message ? (
+          <>
+            <Tag color="blue">{message?.user_nik}</Tag>
+            <h2 className="text-lg font-medium">
+              Subject : {message?.subject}
+            </h2>
+            <p>Message : {message?.message}</p>
+          </>
+        ) : (
+          <p>No message</p>
+        )}
+      </div>
+    </main>
   );
 };
 
