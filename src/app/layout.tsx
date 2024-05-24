@@ -23,6 +23,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          defer
+          src="https://cdn.jsdelivr.net/gh/centrifugal/centrifuge-js@2.7.3/dist/centrifuge.min.js"
+        />
+      </head>
       <body className={workSans.className}>
         <AntdRegistry>
           <Navbar />

@@ -20,6 +20,7 @@
     "@tanstack/react-query-devtools": "^5.35.1",
     "antd": "^5.17.3",
     "axios": "^1.6.8",
+    "centrifuge": "5.2.0-beta.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",

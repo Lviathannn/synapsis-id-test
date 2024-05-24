@@ -17,9 +17,6 @@ interface DataType {
 }
 
 export default function CreateUserForm() {
-  const successMessage = useNotificationStore(
-    (state) => state.createUserMessage,
-  );
   const [messageApi, contextHolder] = message.useMessage();
 
   const [form] = Form.useForm();
